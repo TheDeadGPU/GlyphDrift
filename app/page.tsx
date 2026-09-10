@@ -3,6 +3,7 @@
 import React from 'react';
 import { Canvas } from '@react-three/fiber';
 import { Text3D, Center, OrbitControls, Stars } from '@react-three/drei';
+import TextParticles from '@/components/TextParticles';
 
 interface SceneProps {
   text: string;
@@ -10,22 +11,7 @@ interface SceneProps {
 function Scene({ text }: SceneProps) {
   return (
     <React.Suspense fallback={null}>
-      <Center key={text}>
-        <Text3D
-          font="/fonts/Satoshi_Variable_Bold.json" // Next.js serves files in /public directly from root
-          size={0.75}
-          height={0.2}
-          curveSegments={12}
-          bevelEnabled
-          bevelThickness={0.02}
-          bevelSize={0.02}
-          bevelSegments={5}
-        >
-          {text}
-          <meshStandardMaterial color="#38bdf8" roughness={0.2} />
-        </Text3D>
-      </Center>
-
+      <TextParticles text={text} colorHex="#38bdf8" />
       {/* Starry Background Component */}
       <Stars 
         radius={50}   // Radius of the inner sphere (default 100)
