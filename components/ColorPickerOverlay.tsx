@@ -7,7 +7,7 @@ interface ColorPickerOverlayProps {
 }
 
 export default function ColorPickerOverlay(props : ColorPickerOverlayProps) {
-    const [color, setColor] = useState("#aabbcc");
+    const [color, setColor] = useState("#0FFF50");
     return <div className={props.className}>
         <HexColorPicker color={color} onChange={(color) => props.onColorSelected(color)} />
     </div>

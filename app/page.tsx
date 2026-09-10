@@ -30,7 +30,7 @@ function Scene({ text, colorHex }: SceneProps) {
 
 export default function Page() {
   const [text, setText] = useState('Next.js + R3F');
-  const [color, setColor] = useState("#aabbcc")
+  const [color, setColor] = useState("#0FFF50")
   return (
     <main className="h-screen w-full bg-slate-950">
       <Canvas camera={{ position: [0, 0, 5], fov: 50 }}>
