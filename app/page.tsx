@@ -1,17 +1,19 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { Text3D, Center, OrbitControls, Stars } from '@react-three/drei';
 import TextParticles from '@/components/TextParticles';
+import ColorPickerOverlay from '@/components/ColorPickerOverlay';
 
 interface SceneProps {
   text: string;
+  colorHex: string;
 }
-function Scene({ text }: SceneProps) {
+function Scene({ text, colorHex }: SceneProps) {
   return (
     <React.Suspense fallback={null}>
-      <TextParticles text={text} colorHex="#38bdf8" />
+      <TextParticles text={text} colorHex={colorHex} />
       {/* Starry Background Component */}
       <Stars 
         radius={50}   // Radius of the inner sphere (default 100)
@@ -27,15 +29,17 @@ function Scene({ text }: SceneProps) {
 }
 
 export default function Page() {
-  const [text, setText] = React.useState('Next.js + R3F');
+  const [text, setText] = useState('Next.js + R3F');
+  const [color, setColor] = useState("#aabbcc")
   return (
     <main className="h-screen w-full bg-slate-950">
       <Canvas camera={{ position: [0, 0, 5], fov: 50 }}>
         <ambientLight intensity={1} />
         <directionalLight position={[10, 10, 10]} intensity={2} />
-        <Scene text={text} />
+        <Scene text={text} colorHex={color} />
         <OrbitControls />
       </Canvas>
+      <ColorPickerOverlay className="absolute bottom-4 left-4" onColorSelected={setColor}/>
       <input
         type="text"
         placeholder="Enter text..."
