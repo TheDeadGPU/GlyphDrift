@@ -16,6 +16,26 @@ function TextParticles({ text, colorHex }: TextParticlesProps) {
   const pointsRef = useRef<THREE.Points>(null);
 
   const particleCount = 1600;
+
+  const particleTexture = useMemo(() => {
+    const canvas = document.createElement('canvas');
+    canvas.width = 64;
+    canvas.height = 64;
+    const context = canvas.getContext('2d');
+
+    if (!context) return null;
+
+    const gradient = context.createRadialGradient(32, 32, 0, 32, 32, 32);
+    gradient.addColorStop(0, 'rgba(255, 255, 255, 1)');
+    gradient.addColorStop(0.75, 'rgba(255, 255, 255, 1)');
+    gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
+    context.fillStyle = gradient;
+    context.fillRect(0, 0, 64, 64);
+
+    const texture = new THREE.CanvasTexture(canvas);
+    texture.needsUpdate = true;
+    return texture;
+  }, []);
   
   // Store original sampled positions, live positions, and colors
   const [originalPositions, currentPositions, colors] = useMemo(() => {
@@ -150,6 +170,7 @@ function TextParticles({ text, colorHex }: TextParticlesProps) {
             vertexColors
             transparent
             opacity={0.8}
+            alphaMap={particleTexture}
             blending={THREE.AdditiveBlending}
           />
         </points>
