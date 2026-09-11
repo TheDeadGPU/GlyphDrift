@@ -1,8 +1,9 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Canvas } from '@react-three/fiber';
-import { Text3D, Center, OrbitControls, Stars } from '@react-three/drei';
+import { OrbitControls, Stars } from '@react-three/drei';
+import type { OrbitControls as OrbitControlsImpl } from 'three-stdlib';
 import TextParticles from '@/components/TextParticles';
 import ColorPickerOverlay from '@/components/ColorPickerOverlay';
 
@@ -32,15 +33,17 @@ import DriftControlCenter from '@/components/DriftControlCenter';
 export default function Page() {
   const [text, setText] = useState('Next.js + R3F');
   const [color, setColor] = useState("#0FFF50")
+  const orbitControlsRef = useRef<OrbitControlsImpl>(null);
+
   return (
     <main className="h-screen w-full bg-slate-950">
       <Canvas camera={{ position: [0, 0, 5], fov: 50 }}>
         <ambientLight intensity={1} />
         <directionalLight position={[10, 10, 10]} intensity={2} />
         <Scene text={text} colorHex={color} />
-        <OrbitControls />
+        <OrbitControls ref={orbitControlsRef} />
       </Canvas>
-      <DriftControlCenter />
+      <DriftControlCenter onResetView={() => orbitControlsRef.current?.reset()} />
       <input
         type="text"
         placeholder="Enter text..."

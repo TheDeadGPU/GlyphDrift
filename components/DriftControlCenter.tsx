@@ -6,7 +6,11 @@ import DriftSwitch from './DriftSwitch';
 import ColorPickerOverlay from './ColorPickerOverlay';
 import useGlyphDriftStore from '../hooks/useGlyphDriftStore'
 
-export default function DriftControlCenter() {
+interface DriftControlCenterProps {
+    onResetView: () => void;
+}
+
+export default function DriftControlCenter({ onResetView }: DriftControlCenterProps) {
     const [isActive, setIsActive] = useState(true);
     //const particleDensity = useGlyphDriftStore((state) => state.particleDensity);
     const {
@@ -61,6 +65,7 @@ export default function DriftControlCenter() {
 
                     <button
                         type="button"
+                        onClick={onResetView}
                         className="mt-1 flex w-full items-center justify-start rounded-md border border-white/10 bg-slate-900/70 px-3 py-2 text-left text-[0.92rem] text-slate-200 transition hover:border-emerald-300/50 hover:text-white"
                     >
                         Reset View Button
