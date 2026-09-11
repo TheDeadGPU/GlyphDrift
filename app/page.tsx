@@ -27,6 +27,7 @@ function Scene({ text, colorHex }: SceneProps) {
     </React.Suspense>
   );
 }
+import DriftControlCenter from '@/components/DriftControlCenter';
 
 export default function Page() {
   const [text, setText] = useState('Next.js + R3F');
@@ -39,7 +40,7 @@ export default function Page() {
         <Scene text={text} colorHex={color} />
         <OrbitControls />
       </Canvas>
-      <ColorPickerOverlay className="absolute bottom-4 left-4" onColorSelected={setColor}/>
+      <DriftControlCenter />
       <input
         type="text"
         placeholder="Enter text..."

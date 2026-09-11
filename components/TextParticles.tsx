@@ -5,6 +5,7 @@ import { useFrame } from '@react-three/fiber';
 import { Text3D, Center } from '@react-three/drei';
 import * as THREE from 'three';
 import { MeshSurfaceSampler } from 'three/examples/jsm/math/MeshSurfaceSampler.js';
+import useGlyphDriftStore from '@/hooks/useGlyphDriftStore';
 
 interface TextParticlesProps {
     text: string;
@@ -12,10 +13,12 @@ interface TextParticlesProps {
 }
 
 function TextParticles({ text, colorHex }: TextParticlesProps) {
+const particleColor = useGlyphDriftStore((state) => state.particleColor);
+const particleDensity = useGlyphDriftStore((state) => state.particleDensity);
   const meshRef = useRef<THREE.Mesh>(null);
   const pointsRef = useRef<THREE.Points>(null);
 
-  const particleCount = 1600;
+  const particleCount = particleDensity;
 
   const particleTexture = useMemo(() => {
     const canvas = document.createElement('canvas');
@@ -71,7 +74,7 @@ function TextParticles({ text, colorHex }: TextParticlesProps) {
       currentPositions[i * 3 + 1] = tempPosition.y;
       currentPositions[i * 3 + 2] = tempPosition.z;
 
-      color.set(colorHex);
+      color.set(particleColor);
       colors[i * 3] = color.r;
       colors[i * 3 + 1] = color.g;
       colors[i * 3 + 2] = color.b;
@@ -81,7 +84,7 @@ function TextParticles({ text, colorHex }: TextParticlesProps) {
       pointsRef.current.geometry.attributes.position.needsUpdate = true;
       pointsRef.current.geometry.attributes.color.needsUpdate = true;
     }
-  }, [text, colorHex, originalPositions, currentPositions, colors]);
+  }, [text, particleColor, particleDensity, originalPositions, currentPositions, colors]);
 
   // Physics loop (runs every frame)
   useFrame(() => {

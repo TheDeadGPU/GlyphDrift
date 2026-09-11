@@ -115,3 +115,4 @@ InitTestScene*.unity*
 .DS_Store
 /.next
 /node_modules
+tsconfig.tsbuildinfo
