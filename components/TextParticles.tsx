@@ -15,6 +15,7 @@ interface TextParticlesProps {
 function TextParticles({ text, colorHex }: TextParticlesProps) {
 const particleColor = useGlyphDriftStore((state) => state.particleColor);
 const particleDensity = useGlyphDriftStore((state) => state.particleDensity);
+const isDispersionEnabled = useGlyphDriftStore((state) => state.isDispersionEnabled);
   const meshRef = useRef<THREE.Mesh>(null);
   const pointsRef = useRef<THREE.Points>(null);
 
@@ -89,48 +90,50 @@ const particleDensity = useGlyphDriftStore((state) => state.particleDensity);
   // Physics loop (runs every frame)
   useFrame(() => {
     if (!pointsRef.current) return;
-    const posAttribute = pointsRef.current.geometry.attributes.position;
+    if(isDispersionEnabled) {
+        const posAttribute = pointsRef.current.geometry.attributes.position;
 
-    for (let i = 0; i < particleCount; i++) {
-      const idx = i * 3;
-      
-      const ox = originalPositions[idx];
-      const oy = originalPositions[idx + 1];
-      const oz = originalPositions[idx + 2];
+        for (let i = 0; i < particleCount; i++) {
+        const idx = i * 3;
+        
+        const ox = originalPositions[idx];
+        const oy = originalPositions[idx + 1];
+        const oz = originalPositions[idx + 2];
 
-      let cx = currentPositions[idx];
-      let cy = currentPositions[idx + 1];
-      let cz = currentPositions[idx + 2];
+        let cx = currentPositions[idx];
+        let cy = currentPositions[idx + 1];
+        let cz = currentPositions[idx + 2];
 
-      // Calculate distance to the local mouse position on the mesh
-      const dx = cx - mousePos.current.x;
-      const dy = cy - mousePos.current.y;
-      const dz = cz - mousePos.current.z;
-      const dist = Math.sqrt(dx * dx + dy * dy + dz * dz);
+        // Calculate distance to the local mouse position on the mesh
+        const dx = cx - mousePos.current.x;
+        const dy = cy - mousePos.current.y;
+        const dz = cz - mousePos.current.z;
+        const dist = Math.sqrt(dx * dx + dy * dy + dz * dz);
 
-      const scatterRadius = 1.2;
+        const scatterRadius = 1.2;
 
-      if (dist < scatterRadius) {
-        // Push particle away from mouse in 3D
-        const force = (scatterRadius - dist) / scatterRadius;
-        cx += (dx / dist) * force * 0.15;
-        cy += (dy / dist) * force * 0.15;
-        cz += (dz / dist) * force * 0.15;
-      } else {
-        // Spring back to original position
-        cx += (ox - cx) * 0.08;
-        cy += (oy - cy) * 0.08;
-        cz += (oz - cz) * 0.08;
-      }
+        if (dist < scatterRadius) {
+            // Push particle away from mouse in 3D
+            const force = (scatterRadius - dist) / scatterRadius;
+            cx += (dx / dist) * force * 0.15;
+            cy += (dy / dist) * force * 0.15;
+            cz += (dz / dist) * force * 0.15;
+        } else {
+            // Spring back to original position
+            cx += (ox - cx) * 0.08;
+            cy += (oy - cy) * 0.08;
+            cz += (oz - cz) * 0.08;
+        }
 
-      currentPositions[idx] = cx;
-      currentPositions[idx + 1] = cy;
-      currentPositions[idx + 2] = cz;
+        currentPositions[idx] = cx;
+        currentPositions[idx + 1] = cy;
+        currentPositions[idx + 2] = cz;
 
-      posAttribute.setXYZ(i, cx, cy, cz);
+        posAttribute.setXYZ(i, cx, cy, cz);
+        }
+
+        posAttribute.needsUpdate = true;
     }
-
-    posAttribute.needsUpdate = true;
   });
 
   return (

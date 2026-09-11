@@ -51,8 +51,7 @@ export default function DriftControlCenter() {
 
                     <div className="space-y-5">
                         <DriftSlider label='Particle Density' minimumLabel='0%' maximumLabel='100%' defaultValue={particleDensity} maxValue={5000} onValueChange={(val) => setParticleDensity(val as number)} />
-                        <DriftSlider label='Particle Velocity' minimumLabel='0%' maximumLabel='100%'/>
-                        <DriftSwitch label='Dispersion Toggle'/>
+                        <DriftSwitch label='Dispersion Toggle' onToggle={toggleDispersion} />
                         <div>
                             <Label className="text-slate-200/90 text-sm">Particle Color</Label>
                             <ColorPickerOverlay onColorSelected={setParticleColor} />

@@ -14,7 +14,7 @@ interface GlyphDriftState {
 const useGlyphDriftStore = create<GlyphDriftState>((set) => ({
   particleDensity: 1600,
   particleVelocity: 50,
-  isDispersionEnabled: false,
+  isDispersionEnabled: true,
   particleColor: '#0FFF50',
   setParticleDensity: (density: number) => set({ particleDensity: density }),
   setParticleVelocity: (velocity: number) => set({ particleVelocity: velocity }),
