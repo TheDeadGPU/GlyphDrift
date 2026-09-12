@@ -29,6 +29,7 @@ function Scene({ text, colorHex }: SceneProps) {
   );
 }
 import DriftControlCenter from '@/components/DriftControlCenter';
+import GitHubButton from '@/components/GitHubButton';
 
 export default function Page() {
   const [text, setText] = useState('Next.js + R3F');
@@ -51,6 +52,7 @@ export default function Page() {
         onChange={(e) => setText(e.target.value)}
         className="absolute bottom-4 left-1/2 transform -translate-x-1/2 px-4 py-2 rounded-md bg-slate-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
       />
+      <GitHubButton className='absolute bottom-4 right-4'/>
     </main>
   );
 }
