@@ -11,7 +11,7 @@ interface DriftControlCenterProps {
 }
 
 export default function DriftControlCenter({ onResetView }: DriftControlCenterProps) {
-    const [isActive, setIsActive] = useState(true);
+    const [isActive, setIsActive] = useState(false);
     //const particleDensity = useGlyphDriftStore((state) => state.particleDensity);
     const {
         particleDensity,
