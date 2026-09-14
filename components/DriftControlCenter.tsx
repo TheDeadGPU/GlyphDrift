@@ -47,9 +47,12 @@ export default function DriftControlCenter({ onResetView }: DriftControlCenterPr
                 </div>
 
                 <div className="space-y-5 px-5 pb-5 pt-1">
-                    <div className="border-b border-white/10 pb-3">
+                    <div className="flex justify-between border-b border-white/10 pb-3">
                         <p className="text-[0.7rem] font-medium uppercase tracking-[0.18em] text-slate-400/90">
                             System Parameters
+                        </p>
+                        <p className="text-[0.7rem] font-medium uppercase tracking-[0.18em] text-slate-400/90">
+                            v1.1
                         </p>
                     </div>
 
